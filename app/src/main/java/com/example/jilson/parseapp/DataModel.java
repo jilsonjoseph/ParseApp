@@ -8,13 +8,21 @@ final class DataModel {
     private Field<Details> stats;
 
     // Setter
-    public void setPrices(Field<Double> prices) {
+    void setPrices(Field<Double> prices) {
         this.prices = prices;
     }
 
+    void setStats(Field<Details> stats) {
+        this.stats = stats;
+    }
+
     // Getter
-    public Field getPrices() {
+    Field getPrices() {
         return prices;
+    }
+
+    Field<Details> getStats() {
+        return stats;
     }
 }
 
@@ -25,39 +33,38 @@ final class DataModel {
     private HashMap<String,V> ripple;
 
     // Setters
-
-    public void setInr(HashMap<String, V> inr) {
+    void setInr(HashMap<String, V> inr) {
      this.inr = inr;
     }
 
-    public void setBitcoin(HashMap<String, V> bitcoin) {
+    void setBitcoin(HashMap<String, V> bitcoin) {
      this.bitcoin = bitcoin;
     }
 
-    public void setEther(HashMap<String, V> ether) {
+    void setEther(HashMap<String, V> ether) {
      this.ether = ether;
     }
 
-    public void setRipple(HashMap<String, V> ripple) {
+    void setRipple(HashMap<String, V> ripple) {
      this.ripple = ripple;
     }
 
     //Getters
 
 
-     public HashMap<String, V> getInr() {
+     HashMap<String, V> getInr() {
          return inr;
      }
 
-     public HashMap<String, V> getBitcoin() {
+     HashMap<String, V> getBitcoin() {
          return bitcoin;
      }
 
-     public HashMap<String, V> getEther() {
+     HashMap<String, V> getEther() {
          return ether;
      }
 
-     public HashMap<String, V> getRipple() {
+     HashMap<String, V> getRipple() {
          return ripple;
      }
  }
@@ -67,6 +74,7 @@ final class DataModel {
     private Double lowestAsk;
     private Double lastTradedPrice;
     private Double min24Hrs;
+    private Double max24Hrs;
     private Double vol24Hrs;
     private String currencyFullForm;
     private String currencyShortForm;
@@ -76,39 +84,43 @@ final class DataModel {
     //Setters
 
 
-     public void setHighestBid(Double highestBid) {
+     void setHighestBid(Double highestBid) {
          this.highestBid = highestBid;
      }
 
-     public void setLowestAsk(Double lowestAsk) {
+     void setLowestAsk(Double lowestAsk) {
          this.lowestAsk = lowestAsk;
      }
 
-     public void setLastTradedPrice(Double lastTradedPrice) {
+     void setLastTradedPrice(Double lastTradedPrice) {
          this.lastTradedPrice = lastTradedPrice;
      }
 
-     public void setMin24Hrs(Double min24Hrs) {
+     void setMin24Hrs(Double min24Hrs) {
          this.min24Hrs = min24Hrs;
      }
 
-     public void setVol24Hrs(Double vol24Hrs) {
+     void setMax24Hrs(Double max24Hrs) {
+         this.max24Hrs = max24Hrs;
+     }
+
+     void setVol24Hrs(Double vol24Hrs) {
          this.vol24Hrs = vol24Hrs;
      }
 
-     public void setCurrencyFullForm(String currencyFullForm) {
+     void setCurrencyFullForm(String currencyFullForm) {
          this.currencyFullForm = currencyFullForm;
      }
 
-     public void setCurrencyShortForm(String currencyShortForm) {
+     void setCurrencyShortForm(String currencyShortForm) {
          this.currencyShortForm = currencyShortForm;
      }
 
-     public void setPerChange(Double perChange) {
+     void setPerChange(Double perChange) {
          this.perChange = perChange;
      }
 
-     public void setTradeVolume(Double tradeVolume) {
+     void setTradeVolume(Double tradeVolume) {
          this.tradeVolume = tradeVolume;
      }
 
@@ -128,6 +140,10 @@ final class DataModel {
 
      public Double getMin24Hrs() {
          return min24Hrs;
+     }
+
+     public Double getMax24Hrs() {
+         return max24Hrs;
      }
 
      public Double getVol24Hrs() {

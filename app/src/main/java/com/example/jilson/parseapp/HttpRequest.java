@@ -132,9 +132,14 @@ final class HttpRequest {
         // Parsing JSON Response.
         try {
             JSONObject response = new JSONObject(jsonResponse);
+
             if(response.has("prices")){
                 JSONObject prices = response.getJSONObject("prices");
-                JSONObject inr = null, bitcoin = null, ether = null, ripple = null;
+                JSONObject inr = null;
+                JSONObject bitcoin = null;
+                JSONObject ether = null;
+                JSONObject ripple = null;
+
                 if(prices.has("inr"))
                     inr = prices.getJSONObject("inr");
                 if(prices.has("bitcoin"))
@@ -179,6 +184,68 @@ final class HttpRequest {
 
             }
 
+            if(response.has("stats")){
+                JSONObject stats = response.getJSONObject("stats");
+                JSONObject inr = null;
+                JSONObject bitcoin = null;
+                JSONObject ether = null;
+                JSONObject ripple = null;
+
+                if(stats.has("inr"))
+                    inr = stats.getJSONObject("inr");
+                if(stats.has("bitcoin"))
+                    bitcoin = stats.getJSONObject("bitcoin");
+                if(stats.has("ether"))
+                    ether = stats.getJSONObject("ether");
+                if(stats.has("ripple"))
+                    ripple = stats.getJSONObject("ripple");
+
+                HashMap<String,Details> inrMap = new HashMap<>();
+                HashMap<String,Details> bitcoinMap = new HashMap<>();
+                HashMap<String,Details> etherMap = new HashMap<>();
+                HashMap<String,Details> rippleMap = new HashMap<>();
+
+                for(int i = 0; (i< inrKeys.length)&& (inr != null);i++){
+                    if(inr.has(inrKeys[i])){
+                        JSONObject details = inr.getJSONObject(inrKeys[i]);
+                        Details detailsObject = getDetails(details);
+                        inrMap.put(inrKeys[i],detailsObject);
+                    }
+                }
+
+                for(int i = 0; (i< bitcoinKeys.length)&& (bitcoin != null);i++){
+                    if(bitcoin.has(bitcoinKeys[i])) {
+                        JSONObject details = bitcoin.getJSONObject(bitcoinKeys[i]);
+                        Details detailsObject = getDetails(details);
+                        bitcoinMap.put(bitcoinKeys[i], detailsObject);
+                    }
+                }
+
+                for(int i = 0; (i< etherKeys.length)&& (ether != null);i++){
+                    if(ether.has(etherKeys[i])){
+                        JSONObject details = ether.getJSONObject(etherKeys[i]);
+                        Details detailsObject = getDetails(details);
+                        etherMap.put(etherKeys[i],detailsObject);
+                    }
+                }
+
+                for(int i = 0; (i< rippleKeys.length)&& (ripple != null);i++){
+                    if(ripple.has(inrKeys[i])){
+                        JSONObject details = ripple.getJSONObject(rippleKeys[i]);
+                        Details detailsObject = getDetails(details);
+                        rippleMap.put(rippleKeys[i],detailsObject);
+                    }
+                }
+
+                Field<Details> statsObject = new Field<Details>();
+                statsObject.setInr(inrMap);
+                statsObject.setBitcoin(bitcoinMap);
+                statsObject.setEther(etherMap);
+                statsObject.setRipple(rippleMap);
+
+                dm.setStats(statsObject);
+
+            }
 
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
@@ -189,5 +256,56 @@ final class HttpRequest {
 
         // Return the list of news stories
         return dm;
+    }
+
+    /*
+    * Helper function to get all the details from a cryptocurrency JSON Object
+     * and returns a Details Object*/
+
+     private static Details getDetails(JSONObject details)throws JSONException{
+
+        Details detailsObject = new Details();
+
+        if(details.has("highest_bid")){
+            detailsObject.setHighestBid(details.getDouble("highest_bid"));
+        }
+
+        if(details.has("lowest_ask")){
+            detailsObject.setLowestAsk(details.getDouble("lowest_ask"));
+        }
+
+        if(details.has("last_traded_price")){
+            detailsObject.setLastTradedPrice(details.getDouble("last_traded_price"));
+        }
+
+        if(details.has("min_24hrs")){
+            detailsObject.setMin24Hrs(details.getDouble("min_24hrs"));
+        }
+
+        if(details.has("max_24hrs")){
+            detailsObject.setMax24Hrs(details.getDouble("max_24hrs"));
+        }
+
+        if(details.has("vol_24hrs")){
+            detailsObject.setVol24Hrs(details.getDouble("vol_24hrs"));
+        }
+
+        if(details.has("currency_full_form")){
+            detailsObject.setCurrencyFullForm(details.getString("currency_full_form"));
+        }
+
+        if(details.has("currency_short_form")){
+            detailsObject.setCurrencyShortForm(details.getString("currency_short_form"));
+        }
+
+        if(details.has("per_change")){
+            detailsObject.setPerChange(details.getDouble("per_change"));
+        }
+
+        if(details.has("trade_volume")){
+            detailsObject.setTradeVolume(details.getDouble("trade_volume"));
+        }
+
+        return detailsObject;
     }
 }

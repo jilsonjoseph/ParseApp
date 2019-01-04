@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void updateUi(DataModel data){
         Log.v(LOG_TAG,"in updateUi method");
-        text1.setText(data.getPrices().getInr().get("ETH").toString());
+        text1.setText(data.getStats().getInr().get("ETH").getCurrencyFullForm());
     }
 
     @Override
